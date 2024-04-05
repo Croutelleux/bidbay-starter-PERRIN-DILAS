@@ -1,2 +1,10 @@
 node_modules/
 .idea/
+frontend/mochawesome-report/assets/MaterialIcons-Regular.woff
+frontend/mochawesome-report/assets/MaterialIcons-Regular.woff2
+frontend/mochawesome-report/assets/roboto-light-webfont.woff
+frontend/mochawesome-report/assets/roboto-light-webfont.woff2
+frontend/mochawesome-report/assets/roboto-medium-webfont.woff
+frontend/mochawesome-report/assets/roboto-medium-webfont.woff2
+frontend/mochawesome-report/assets/roboto-regular-webfont.woff
+frontend/mochawesome-report/assets/roboto-regular-webfont.woff2
