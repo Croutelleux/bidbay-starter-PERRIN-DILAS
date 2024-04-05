@@ -26,9 +26,12 @@ const router = express.Router()
  */
 router.post('/api/auth/register', async (req, res) => {
   try {
-    const { username, email, password } = req.body
+    /** @type {RegisterRequestBody} */
+    const reqBody = req.body
+    const { username, email, password } = reqBody
 
     // Vérifier si l'utilisateur existe déjà
+    /** @type {UserObject | null} */
     const userWithSameEmail = await User.findOne({ where: { email } })
 
     if (userWithSameEmail) {
@@ -36,17 +39,18 @@ router.post('/api/auth/register', async (req, res) => {
     }
 
     // Vérifier si l'utilisateur existe déjà
+    /** @type {UserObject | null} */
     const userWithSameUsername = await User.findOne({
       attributes: ['id', 'username', 'email', 'admin'],
       where: { username }
     })
-
 
     if (userWithSameUsername) {
       return res.status(409).json({ error: 'Username already used' })
     }
 
     // Créer le nouvel utilisateur
+    /** @type {UserObject} */
     const newUser = await User.create({
       username,
       email,
@@ -54,12 +58,14 @@ router.post('/api/auth/register', async (req, res) => {
     })
 
     // Générer un token JWT pour l'authentification future
+    /** @type {Token} */
     const payload = {
       id: newUser.id,
       username,
       email,
       admin: email.endsWith('@admin.org')
     }
+    /** @type {string} */
     const token = jwt.sign(payload, JWT_SECRET)
 
     // Renvoyer l'utilisateur et le token
@@ -82,7 +88,8 @@ router.post('/api/auth/register', async (req, res) => {
  */
 router.post('/api/auth/login', async (req, res) => {
   /** @type {LoginRequestBody} */
-  const { email, password } = req.body
+  const reqBody = req.body
+  const { email, password } = reqBody
 
   try {
     // Vérifier si l'utilisateur existe
@@ -96,7 +103,6 @@ router.post('/api/auth/login', async (req, res) => {
     }
 
     console.log(user.password, password)
-
 
     // Vérifier le mot de passe de l'utilisateur
     if (user.password !== password) {
